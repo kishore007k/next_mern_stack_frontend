@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getAllPosts } from "../../redux/actions";
+import Card from "./Card";
 
 const PostGrid = () => {
 	const dispatch = useDispatch();
@@ -19,19 +20,25 @@ const PostGrid = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
-			{posts === [] ? (
-				<div>Loading...</div>
-			) : (
-				posts.map((post) => (
-					<div key={post._id}>
-						<h1 className="font-inter text-2xl text-gray-700 font-semibold">
-							{post.title}
-						</h1>
-					</div>
-				))
-			)}
-		</div>
+		<>
+			<div className="grid grid-cols-4 gap-5 pb-20">
+				{posts ? (
+					posts.map((post) => (
+						<Card
+							key={post._id}
+							title={post.title}
+							desc={post.desc}
+							image={post.pImage}
+							category={post.category}
+							slug={post.slug}
+							id={post._id}
+						/>
+					))
+				) : (
+					<div className="grid grid-cols-1 pb-20">Loading...</div>
+				)}
+			</div>
+		</>
 	);
 };
 

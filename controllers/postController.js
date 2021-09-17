@@ -74,7 +74,10 @@ export const getAllPosts = async (req, res) => {
 export const getPost = async (req, res) => {
 	try {
 		const postSlug = req.query.postSlug;
-		const post = await PostModel.findOne({ slug: postSlug });
+		const post = await PostModel.findOne({ slug: postSlug }).populate(
+			"pAuthor",
+			"userName email userImage"
+		);
 		if (!post) {
 			return res.status(400).send({ message: "No Post" });
 		}
