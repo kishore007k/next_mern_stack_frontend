@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import UserModel from "../models/userModel";
 import hexgen from "hex-generator";
+import jwt from "jsonwebtoken";
 
 export const addUser = async (req, res) => {
 	try {
@@ -78,6 +79,20 @@ export const getAllUsers = async (req, res) => {
 			return res.status(404).send({ message: "No user found" });
 		}
 		return res.status(200).send({ data: users });
+	} catch (error) {
+		return res.status(400).send({ error: error });
+	}
+};
+
+export const userLogin = async (req, res) => {
+	try {
+		const { email, password } = req.body;
+		const user = await UserModel.findOne({ email });
+		if (!user) return res.status(404).send({ message: "User not found" });
+		const pMatch = bcrypt.compareSync(password, user.password);
+		if (!pMatch) return res.status(400).send({ error: "Password doesn't match" });
+		const token = jwt.sign({ email }, user.secretKey, { expiresIn: "6h" });
+		return res.status(200).send({ data: user, token });
 	} catch (error) {
 		return res.status(400).send({ error: error });
 	}

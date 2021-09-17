@@ -1,20 +1,10 @@
 import connectDB from "../../../utils/connectDB";
-import {
-	userLogin,
-	editUser,
-	getAllUsers,
-} from "../../../controllers/userController";
+import { addUser } from "../../../controllers/userController";
 
 const handler = async (req, res) => {
 	switch (req.method) {
-		case "GET":
-			return await getAllUsers(req, res);
-
 		case "POST":
-			return await userLogin(req, res);
-
-		case "PUT":
-			return await editUser(req, res);
+			return await addUser(req, res);
 
 		default:
 			return res.status(400).send({ error: "Server Error" });
