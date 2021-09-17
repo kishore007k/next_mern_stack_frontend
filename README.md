@@ -48,15 +48,17 @@ The following code will let the user to connect to the MongoDB database. This is
 ```js
 import mongoose from "mongoose";
 
-const connectDB = () => {
+const connectDB = (handler) => async (req, res) => {
 	if (mongoose.connections[0].readyState) {
-		console.log("Already connected.");
-		return;
+		// Use current db connection
+		return handler(req, res);
 	}
-	mongoose.connect(process.env.MONGODB_URL, (err) => {
-		if (err) throw err;
-		console.log("connected to MongoDB");
+	// Use new db connection
+	await mongoose.connect(process.env.MONGODB_URL, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
 	});
+	return handler(req, res);
 };
 
 export default connectDB;
@@ -69,15 +71,47 @@ export default connectDB;
 To connect to the Database you can simply call the `connectDB()` function.
 
 ```js
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
+import bcrypt from "bcryptjs";
 import connectDB from "../../utils/connectDB";
+import UserModel from "../../models/userModel";
 
-connectDB();
+const handler = async (req, res) => {
+	switch (req.method) {
+		case "GET":
+			try {
+				const users = await UserModel.find({});
+				res.status(200).send({ data: users });
+			} catch (error) {
+				res.status(400).send({ error: error });
+			}
+			break;
 
-export default function handler(req, res) {
-	res.status(200).json({ name: "John Doe" });
-}
+		case "POST":
+			try {
+				const { userName, email, password, cPassword } = req.body;
+				if (password !== cPassword) {
+					return res.send({ message: "Passwords doesn't match" });
+				}
+				const hashed = bcrypt.hashSync(password, 10);
+				const newUser = new UserModel({
+					userName,
+					email,
+					password: hashed,
+				});
+				const saved = await newUser.save();
+				if (saved) return res.send({ data: saved });
+			} catch (error) {
+				res.send({ error: error });
+			}
+			break;
+
+		default:
+			res.status(400).send({ error: "Server Error" });
+			break;
+	}
+};
+
+export default connectDB(handler);
 ```
 
 <br />
@@ -87,3 +121,55 @@ export default function handler(req, res) {
     <img src="https://user-images.githubusercontent.com/34863222/131228260-096334c8-c906-44c8-a4f0-cf3af7d49ac0.png" />
   </a>
 </p>
+
+---
+
+### Models
+
+All the models are created in the Models folder in the root directory.
+
+Example:
+
+```js
+// User Model
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema(
+	{
+		userName: {
+			type: String,
+			required: true,
+			maxlength: 32,
+		},
+		email: {
+			type: String,
+			required: true,
+			trim: true,
+			index: { unique: true },
+			match: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
+		cPassword: {
+			type: String,
+		},
+	},
+	{
+		timestamps: true,
+	}
+);
+
+mongoose.models = {};
+
+const UserModel = mongoose.model("users", userSchema);
+
+export default UserModel;
+```
+
+---
+
+### Middleware
+
+All the `verifyUser`, `isLoggedIn` & `isAdmin` checks should be defined in the Middlewares folder and exported.

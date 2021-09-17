@@ -1,14 +1,16 @@
 import mongoose from "mongoose";
 
-const connectDB = () => {
+const connectDB = (handler) => async (req, res) => {
 	if (mongoose.connections[0].readyState) {
-		console.log("Already connected.");
-		return;
+		// Use current db connection
+		return handler(req, res);
 	}
-	mongoose.connect(process.env.MONGODB_URL, (err) => {
-		if (err) throw err;
-		console.log("connected to MongoDB");
+	// Use new db connection
+	await mongoose.connect(process.env.MONGODB_URL, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
 	});
+	return handler(req, res);
 };
 
 export default connectDB;

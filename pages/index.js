@@ -1,7 +1,27 @@
+import axios from "axios";
 import Head from "next/head";
-import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+	const [userName, setUserName] = useState("");
+	const [password, setPassword] = useState("");
+	const [cPassword, setCPassword] = useState("");
+	const [email, setEmail] = useState("");
+
+	const createUser = () => {
+		const res = axios
+			.post("/api/hello", {
+				userName,
+				password,
+				cPassword,
+				email,
+			})
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err));
+
+		return res;
+	};
+
 	return (
 		<div>
 			<Head>
@@ -11,17 +31,44 @@ export default function Home() {
 			</Head>
 
 			<main className="container max-w-screen-lg mx-auto flex flex-col justify-between items-center pt-40 h-screen">
-				<h1 className="font-mono text-3xl font-semibold text-gray-700">
-					Welcome to{" "}
-					<a
-						href="https://nextjs.org"
-						className="text-blue-500 underline transition-all hover:text-blue-700"
-					>
-						Next.js with Mongoose!
-					</a>
-				</h1>
-				<div className="mb-20 w-full text-center pt-10">
-					<Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+				<div>
+					<input
+						type="text"
+						name="userName"
+						id="userName"
+						value={userName}
+						onChange={(e) => setUserName(e.target.value)}
+						placeholder="User Name"
+					/>
+					<br />
+					<input
+						type="password"
+						name="password"
+						id="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						placeholder="Password"
+					/>
+					<br />
+					<input
+						type="password"
+						name="cPassword"
+						id="cPassword"
+						value={cPassword}
+						onChange={(e) => setCPassword(e.target.value)}
+						placeholder="Confirm Password"
+					/>
+					<br />
+					<input
+						type="email"
+						name="email"
+						id="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						placeholder="Email Address"
+					/>
+					<br />
+					<button onClick={createUser}>SignUp</button>
 				</div>
 			</main>
 		</div>
