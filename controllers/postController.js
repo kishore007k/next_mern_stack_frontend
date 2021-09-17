@@ -25,6 +25,37 @@ export const createPost = async (req, res) => {
 	}
 };
 
+export const editPost = async (req, res) => {
+	try {
+		const { postSlug, updatedData } = req.body;
+		const updatedPosts = await PostModel.findOneAndUpdate(
+			{ slug: postSlug },
+			{ ...updatedData }
+		);
+		if (!updatedPosts) {
+			return res.status(405).send({ message: "Can not update the post" });
+		}
+		return res.status(201).send({ data: updatedPosts });
+	} catch (error) {
+		return res.status(400).send({ error: error });
+	}
+};
+
+export const deletePost = async (req, res) => {
+	try {
+		const postSlug = req.query.postSlug;
+		const post = await PostModel.findOneAndDelete({ slug: postSlug });
+		if (!post) {
+			return res.status(405).send({ message: "Can not delete the post" });
+		}
+		return res
+			.status(201)
+			.send({ message: "Post has been deleted successfully" });
+	} catch (error) {
+		return res.status(400).send({ error: error });
+	}
+};
+
 export const getAllPosts = async (req, res) => {
 	try {
 		const posts = await PostModel.find({}).populate(
