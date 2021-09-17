@@ -8,7 +8,7 @@ import {
 const handler = async (req, res) => {
 	switch (req.method) {
 		case "GET":
-			return getAllUsers(req, res);
+			return await getAllUsers(req, res);
 
 		case "POST":
 			return await addUser(req, res);
@@ -17,8 +17,7 @@ const handler = async (req, res) => {
 			return await editUser(req, res);
 
 		default:
-			res.status(400).send({ error: "Server Error" });
-			break;
+			return res.status(400).send({ error: "Server Error" });
 	}
 };
 

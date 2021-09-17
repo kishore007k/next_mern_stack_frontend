@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: "userImage.png",
 		},
-		posts: [
+		userPosts: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "posts",
