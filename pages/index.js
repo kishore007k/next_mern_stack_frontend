@@ -10,7 +10,7 @@ export default function Home() {
 
 	const createUser = () => {
 		const res = axios
-			.post("/api/hello", {
+			.post("/api/users", {
 				userName,
 				password,
 				cPassword,

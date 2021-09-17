@@ -21,6 +21,20 @@ const userSchema = new mongoose.Schema(
 		cPassword: {
 			type: String,
 		},
+		secretKey: {
+			type: String,
+			default: "",
+		},
+		userImage: {
+			type: String,
+			default: "userImage.png",
+		},
+		posts: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "posts",
+			},
+		],
 	},
 	{
 		timestamps: true,
