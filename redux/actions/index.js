@@ -13,3 +13,17 @@ export const signInUser = (data) => {
 		payload: data,
 	};
 };
+
+export const getAllPosts = (data) => {
+	return {
+		type: ActionTypes.GET_ALL_POSTS,
+		payload: data,
+	};
+};
+
+export const getPost = (data) => {
+	return {
+		type: ActionTypes.GET_POST,
+		payload: data,
+	};
+};
