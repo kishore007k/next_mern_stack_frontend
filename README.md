@@ -7,10 +7,34 @@
 <br />
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/34863222/131228195-bbe6aab7-6937-4618-b522-857a07e6ea9f.png" />
+  <a href="https://github.com/kishore007k" target="_blank">
+    <img src="https://user-images.githubusercontent.com/34863222/131228260-096334c8-c906-44c8-a4f0-cf3af7d49ac0.png" />
+  </a>
 </p>
 
 <br />
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/34863222/131228195-bbe6aab7-6937-4618-b522-857a07e6ea9f.png" />
+	<br />
+	<img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" />
+	<img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens" />
+	<img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+	<img src="https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white" />
+	<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" />
+</p>
+
+<br />
+
+---
+
+## Deployed In
+
+<p>
+	<img src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white" />
+</p>
+
+The Front End and the Back End are deployed in the [Vercel](https://next-mern-stack-frontend.vercel.app/).
 
 ---
 
@@ -113,14 +137,6 @@ const handler = async (req, res) => {
 
 export default connectDB(handler);
 ```
-
-<br />
-
-<p align="center">
-  <a href="https://github.com/kishore007k" target="_blank">
-    <img src="https://user-images.githubusercontent.com/34863222/131228260-096334c8-c906-44c8-a4f0-cf3af7d49ac0.png" />
-  </a>
-</p>
 
 ---
 
