@@ -22,15 +22,17 @@ const PreBlock = ({ children, ...rest }) => {
 };
 
 const MarkdownViewer = ({ pBody }) => (
-	<Markdown
-		options={{
-			overrides: {
-				pre: PreBlock,
-			},
-		}}
-	>
-		{pBody}
-	</Markdown>
+	<div className="prose max-w-screen-xl">
+		<Markdown
+			options={{
+				overrides: {
+					pre: PreBlock,
+				},
+			}}
+		>
+			{pBody}
+		</Markdown>
+	</div>
 );
 
 export default MarkdownViewer;

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getPost } from "../../redux/actions";
 import { useSelector } from "react-redux";
 import MarkdownViewer from "../components/MarkdownViewer";
+import readingTime from "reading-time";
 
 const PostDetails = () => {
 	const router = useRouter();
@@ -29,6 +30,20 @@ const PostDetails = () => {
 		setLoaded(true);
 	}, [1000]);
 
+	const date = new Date(post.createdAt);
+
+	Date.prototype.getDayOfWeek = function () {
+		return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][this.getDay()];
+	};
+
+	const day = date.getDayOfWeek();
+	const newDate = date.getDate();
+	const year = date.getFullYear();
+
+	const stats = readingTime(post.pBody);
+
+	console.log(stats);
+
 	return (
 		<div>
 			{!loaded ? (
@@ -50,11 +65,11 @@ const PostDetails = () => {
 						</p>
 						<span className="px-5 text-gray-500">&#47;</span>
 						<p className="uppercase text-sm text-gray-500 tracking-wider">
-							{post.createdAt}
+							{newDate}-{day}-{year}
 						</p>
 						<span className="px-5 text-gray-500">&#47;</span>
 						<p className="uppercase text-sm text-gray-500 tracking-wider">
-							2 min read
+							{stats.text}
 						</p>
 					</div>
 
