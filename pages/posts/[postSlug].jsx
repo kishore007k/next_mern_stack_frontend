@@ -12,6 +12,7 @@ import Image from "next/image";
 const PostDetails = () => {
 	const router = useRouter();
 	const postSlug = router.query.postSlug;
+
 	const [loaded, setLoaded] = useState(false);
 	const [stats, setStats] = useState({});
 
@@ -19,6 +20,7 @@ const PostDetails = () => {
 	const post = useSelector((state) => state?.posts?.post);
 
 	const date = new Date(post.createdAt);
+
 	Date.prototype.getMonthName = function () {
 		return [
 			"Jan",
@@ -62,7 +64,7 @@ const PostDetails = () => {
 	return (
 		<div>
 			{!loaded ? (
-				<div>Loading...</div>
+				<div className="container max-w-screen-xl mx-auto pt-10">Loading...</div>
 			) : (
 				<div className="container max-w-screen-xl mx-auto pt-10 flex flex-col items-center space-y-14">
 					<h4 className="text-center uppercase font-sourceCodePro font-bold text-lg border-2 border-black px-2 tracking-widest">
