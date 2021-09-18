@@ -13,6 +13,9 @@ const PostReducer = (state = INITIAL_STATE, { type, payload }) => {
 		case ActionTypes.GET_POST:
 			return { ...state, post: payload };
 
+		case ActionTypes.CREATE_POST:
+			return { ...state, post: payload };
+
 		default:
 			return state;
 	}

@@ -42,3 +42,41 @@
   width: 100%;
 	left: 0;
 }
+
+.userImage::after{
+  position: absolute;
+  content: "";
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  top: -10px;
+  left: -10px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.imageUpload  input {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  opacity: 0;
+  cursor: pointer;
+  z-index: -1;
+}
+
+.floating-input>input::placeholder {
+  color: transparent;
+}
+
+.floating-input>input:focus,
+.floating-input>input:not(:placeholder-shown) { 
+@apply pt-10
+}
+
+.floating-input>input:focus~label, 
+.floating-input>input:not(:placeholder-shown)~label {
+@apply opacity-75 scale-75 -translate-y-3 translate-x-1; 
+}

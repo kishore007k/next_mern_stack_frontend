@@ -27,3 +27,10 @@ export const getPost = (data) => {
 		payload: data,
 	};
 };
+
+export const createPost = (data) => {
+	return {
+		type: ActionTypes.CREATE_POST,
+		payload: data,
+	};
+};

@@ -4,6 +4,8 @@ const ActionTypes = {
 
 	GET_ALL_POSTS: "GET_ALL_POSTS",
 	GET_POST: "GET_POST",
+
+	CREATE_POST: "CREATE_POST",
 };
 
 export default ActionTypes;

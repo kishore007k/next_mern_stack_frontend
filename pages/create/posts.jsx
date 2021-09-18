@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import axios from "axios";
 import withAuth from "../auth/withAuth";
@@ -38,46 +38,35 @@ const CreatePosts = () => {
 	const [desc, setDesc] = useState("");
 
 	const [editMode, setEditMode] = useState(true);
-	const [token, setToken] = useState("");
 	const [user, setUser] = useState({});
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const userToken = Cookies.get("token");
 		const userData = JSON.parse(decodeURIComponent(Cookies.get("userData")));
-		setToken(userToken);
 		setUser(userData);
 	}, []);
 
-	const config = {
-		headers: {
-			"Access-Control-Allow-Origin": "*",
-			Authorization: `Bearer ${token}`,
-		},
-	};
+	console.log(pBody);
 
-	const sendData = async () => {
-		const response = await axios
-			.post(
-				"/api/posts",
-				{
-					title,
-					slug,
-					desc,
-					pBody,
-					pImage: cover,
-					pAuthor: user._id,
-				},
-				config
-			)
+	const sendData = async (e) => {
+		e.preventDefault();
+		const res = await axios
+			.post("/api/posts", {
+				title,
+				slug,
+				desc,
+				pImage: cover,
+				pBody,
+				pAuthor: user._id,
+			})
 			.then((res) => {
-				dispatch(createPost(res.data));
-				router.replace("/");
+				console.log(res.data.data);
+				dispatch(createPost(res.data.data));
+				router.push("/");
 			})
 			.catch((err) => console.log(err));
-
-		return response;
+		return res;
 	};
 
 	return (
@@ -120,6 +109,7 @@ const CreatePosts = () => {
 									<div className="flex items-center">
 										<div className="w-[500px] h-[300px]">
 											<img
+												alt="image"
 												src={cover}
 												className="w-full h-full object-cover object-center rounded-md"
 											/>
@@ -160,7 +150,7 @@ const CreatePosts = () => {
 									onChange={(e) => setSlug(e.target.value)}
 									value={slug}
 								/>
-								<input
+								{/* <input
 									type="text"
 									placeholder="Category"
 									className="text-2xl w-full font-inter text-skin-base tracking-wider outline-none placeholder-gray-400 mt-10 px-3 py-2 bg-gray-50 lowercase"
@@ -173,7 +163,7 @@ const CreatePosts = () => {
 									className="text-2xl w-full font-inter text-skin-base tracking-wider outline-none placeholder-gray-400 mt-10 px-3 py-2 bg-gray-50 lowercase"
 									onChange={(e) => setTag(e.target.value.toUpperCase())}
 									value={tag}
-								/>
+								/> */}
 							</div>
 							<div className="p-8 w-full">
 								<input
@@ -204,6 +194,7 @@ const CreatePosts = () => {
 								className="w-full h-full px-10 bg-gray-50 font-inter font-normal outline-none text-xl scrollbar scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-transparent resize-none"
 								placeholder="Write your post content here..."
 								onChange={(e) => setPBody(e.target.value)}
+								value={pBody}
 							></textarea>
 						</div>
 					</div>
@@ -220,6 +211,7 @@ const CreatePosts = () => {
 							{cover !== "" ? (
 								<div className="w-11/12 max-h-[300] h-96">
 									<img
+										alt="image"
 										src={cover}
 										className="object-cover object-center w-full h-full rounded-md"
 									/>
