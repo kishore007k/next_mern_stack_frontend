@@ -7,14 +7,38 @@ import { getPost } from "../../redux/actions";
 import { useSelector } from "react-redux";
 import MarkdownViewer from "../components/MarkdownViewer";
 import readingTime from "reading-time";
+import Image from "next/image";
 
 const PostDetails = () => {
 	const router = useRouter();
 	const postSlug = router.query.postSlug;
 	const [loaded, setLoaded] = useState(false);
+	const [stats, setStats] = useState({});
 
 	const dispatch = useDispatch();
 	const post = useSelector((state) => state?.posts?.post);
+
+	const date = new Date(post.createdAt);
+	Date.prototype.getMonthName = function () {
+		return [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		][this.getMonth()];
+	};
+
+	const newDate = date.getDate();
+	const year = date.getFullYear();
+	const month = date.getMonthName();
 
 	useEffect(() => {
 		const res = axios
@@ -23,33 +47,24 @@ const PostDetails = () => {
 				dispatch(getPost(res.data.data));
 			})
 			.catch((err) => console.log(err));
+		setStats({});
 		return res;
 	}, [dispatch, postSlug]);
 
 	setTimeout(() => {
-		setLoaded(true);
-	}, [1000]);
-
-	const date = new Date(post.createdAt);
-
-	Date.prototype.getDayOfWeek = function () {
-		return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][this.getDay()];
-	};
-
-	const day = date.getDayOfWeek();
-	const newDate = date.getDate();
-	const year = date.getFullYear();
-
-	const stats = readingTime(post.pBody);
-
-	console.log(stats);
+		if (post.pBody) {
+			setLoaded(true);
+			const stats = readingTime(post.pBody);
+			return setStats(stats);
+		}
+	}, [500]);
 
 	return (
 		<div>
 			{!loaded ? (
 				<div>Loading...</div>
 			) : (
-				<div className="container max-w-screen-xl mx-auto pt-60 flex flex-col items-center space-y-14">
+				<div className="container max-w-screen-xl mx-auto pt-10 flex flex-col items-center space-y-14">
 					<h4 className="text-center uppercase font-sourceCodePro font-bold text-lg border-2 border-black px-2 tracking-widest">
 						category
 					</h4>
@@ -65,12 +80,22 @@ const PostDetails = () => {
 						</p>
 						<span className="px-5 text-gray-500">&#47;</span>
 						<p className="uppercase text-sm text-gray-500 tracking-wider">
-							{newDate}-{day}-{year}
+							{newDate} {month} {year}
 						</p>
 						<span className="px-5 text-gray-500">&#47;</span>
 						<p className="uppercase text-sm text-gray-500 tracking-wider">
 							{stats.text}
 						</p>
+					</div>
+
+					<div>
+						<Image
+							src={post.pImage}
+							alt={post.title}
+							width={1280}
+							height={500}
+							className="object-cover w-full h-full"
+						/>
 					</div>
 
 					<MarkdownViewer pBody={post.pBody} />

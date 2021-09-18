@@ -17,6 +17,22 @@ module.exports = {
 				klee: ["Klee One", "cursive"],
 				inter: ["Inter", "sans-serif"],
 			},
+			typography: {
+				DEFAULT: {
+					css: {
+						color: "#333",
+						a: {
+							color: "#32a2e3",
+							"&:hover": {
+								color: "#2c5d82",
+							},
+						},
+						code: {
+							backgroundColor: "#fcfcfc",
+						},
+					},
+				},
+			},
 		},
 	},
 	variants: {
