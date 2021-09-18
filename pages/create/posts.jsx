@@ -34,7 +34,7 @@ const CreatePosts = () => {
 				slug,
 				desc,
 				pImage: cover,
-				pBody: marked,
+				pBody,
 				pAuthor: user._id,
 			})
 			.then((res) => {

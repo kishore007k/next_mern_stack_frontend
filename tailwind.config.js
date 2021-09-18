@@ -29,6 +29,11 @@ module.exports = {
 						},
 						code: {
 							backgroundColor: "#fcfcfc",
+							color: "#1F2937",
+							borderRadius: "0.3em",
+							padding: "4px 5px",
+							whiteSpace: "nowrap",
+							fontSize: "16px",
 						},
 					},
 				},
