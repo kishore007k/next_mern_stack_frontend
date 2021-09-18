@@ -1,14 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getPost } from "../../redux/actions";
 import { useSelector } from "react-redux";
+import MarkdownViewer from "../components/MarkdownViewer";
 
 const PostDetails = () => {
 	const router = useRouter();
 	const postSlug = router.query.postSlug;
+	const [loaded, setLoaded] = useState(false);
 
 	const dispatch = useDispatch();
 	const post = useSelector((state) => state?.posts?.post);
@@ -23,9 +25,13 @@ const PostDetails = () => {
 		return res;
 	}, [dispatch, postSlug]);
 
+	setTimeout(() => {
+		setLoaded(true);
+	}, [1000]);
+
 	return (
 		<div>
-			{post && post === {} ? (
+			{!loaded ? (
 				<div>Loading...</div>
 			) : (
 				<div className="container max-w-screen-xl mx-auto pt-60 flex flex-col items-center space-y-14">
@@ -52,7 +58,7 @@ const PostDetails = () => {
 						</p>
 					</div>
 
-					<div>{post.pBody}</div>
+					<MarkdownViewer pBody={post.pBody} />
 
 					<div className="w-full flex flex-col items-center pb-40 space-y-10">
 						<div className="flex w-full relative">

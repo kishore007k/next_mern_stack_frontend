@@ -7,28 +7,7 @@ import { createPost } from "../../redux/actions";
 import router from "next/router";
 import Cookies from "js-cookie";
 import FileBase from "react-file-base64";
-import Markdown from "markdown-to-jsx";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import MaterialDarkStyle from "../components/MaterialDarkStyle";
-
-const CodeBlock = ({ className, children }) => {
-	let lang = "text";
-	if (className && className.startsWith("lang-")) {
-		lang = className.replace("lang-", "");
-	}
-	return (
-		<SyntaxHighlighter language={lang} style={MaterialDarkStyle}>
-			{children}
-		</SyntaxHighlighter>
-	);
-};
-
-const PreBlock = ({ children, ...rest }) => {
-	if ("type" in children && children["type"] === "code") {
-		return CodeBlock(children["props"]);
-	}
-	return <pre {...rest}>{children}</pre>;
-};
+import MarkdownViewer from "../components/MarkdownViewer";
 
 const CreatePosts = () => {
 	const [cover, setCover] = useState("");
@@ -47,8 +26,6 @@ const CreatePosts = () => {
 		setUser(userData);
 	}, []);
 
-	console.log(pBody);
-
 	const sendData = async (e) => {
 		e.preventDefault();
 		const res = await axios
@@ -57,11 +34,10 @@ const CreatePosts = () => {
 				slug,
 				desc,
 				pImage: cover,
-				pBody,
+				pBody: marked,
 				pAuthor: user._id,
 			})
 			.then((res) => {
-				console.log(res.data.data);
 				dispatch(createPost(res.data.data));
 				router.push("/");
 			})
@@ -231,15 +207,7 @@ const CreatePosts = () => {
 						</div>
 
 						<div className="flex flex-col min-w-full w-full h-full prose lg:prose-xl">
-							<Markdown
-								options={{
-									overrides: {
-										pre: PreBlock,
-									},
-								}}
-							>
-								{pBody}
-							</Markdown>
+							<MarkdownViewer pBody={pBody} />
 						</div>
 					</div>
 				</div>
