@@ -21,7 +21,7 @@ const PostGrid = () => {
 
 	return (
 		<>
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-5 pb-10">
+			<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 pb-10">
 				{posts ? (
 					posts.map((post) => (
 						<Card
