@@ -19,8 +19,6 @@ const Home = () => {
 		return res;
 	}, [dispatch]);
 
-	console.log(posts.length);
-
 	return (
 		<div>
 			{posts.length === 0 ? (

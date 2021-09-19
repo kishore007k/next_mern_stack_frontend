@@ -22,7 +22,8 @@ const CreatePosts = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const userData = JSON.parse(decodeURIComponent(Cookies.get("userData")));
+		var jsonStr = Cookies.get("userData");
+		var userData = new Function("return " + jsonStr)();
 		setUser(userData);
 	}, []);
 

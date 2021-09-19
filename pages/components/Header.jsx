@@ -13,6 +13,7 @@ const Header = () => {
 	const [user, setUser] = useState({});
 
 	const [open, setOpen] = useState(false);
+	const [clicked, setClicked] = useState(false);
 
 	const router = useRouter();
 	const userToken = useSelector((state) => state?.users?.token);
@@ -30,9 +31,11 @@ const Header = () => {
 			setIsLoggedIn(true);
 			setToken(lToken);
 		}
-		const user = JSON.parse(Cookies.get("userData"));
+		var jsonStr = Cookies.get("userData");
+		var user = new Function("return " + jsonStr)();
 		setUser(user);
 		setOpen(false);
+		setClicked(false);
 	}, [token, userToken]);
 
 	return (
@@ -65,10 +68,34 @@ const Header = () => {
 						<div>
 							{isLoggedIn ? (
 								<button
-									onClick={handleLogOut}
-									className="font-klee font-bold text-white px-5 py-2 bg-gray-900 cursor-pointer transition-all duration-300 hover:bg-red-500"
+									onClick={() => setClicked(!clicked)}
+									className="cursor-pointer relative"
 								>
-									Log Out
+									<div className="w-[45px] h-[45px]">
+										<img
+											src={user?.userImage}
+											alt={user?.userName}
+											className="object-cover w-full h-full rounded-full drop-shadow-md"
+										/>
+									</div>
+									<div
+										className={`${
+											clicked ? "flex" : "hidden"
+										} flex-col absolute top-12 -right-10 bg-gray-50 font-klee font-semibold space-y-5 text-lg p-5 drop-shadow-lg`}
+									>
+										<Link href="/profile">
+											<a className="hoverEffect">Profile</a>
+										</Link>
+										<Link href="/dashboard">
+											<a className="hoverEffect">Dashboard</a>
+										</Link>
+										<button
+											className="font-klee font-semibold text-lg hoverEffect"
+											onClick={handleLogOut}
+										>
+											Logout
+										</button>
+									</div>
 								</button>
 							) : (
 								<Link href="/auth">
