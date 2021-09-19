@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import MarkdownViewer from "../components/MarkdownViewer";
 import readingTime from "reading-time";
 import Image from "next/image";
+import Loader from "../components/Loader";
 
 const PostDetails = () => {
 	const router = useRouter();
@@ -64,9 +65,7 @@ const PostDetails = () => {
 	return (
 		<div>
 			{!loaded ? (
-				<div className="container max-w-screen-xl mx-auto pt-10 px-2 lg:px-0">
-					Loading...
-				</div>
+				<Loader />
 			) : (
 				<div className="container max-w-screen-xl mx-auto pt-10 flex flex-col items-center space-y-14 px-2 lg:px-5 xl:px-0">
 					<h4 className="text-center uppercase font-sourceCodePro font-bold text-base lg:text-lg border-2 border-black px-2 tracking-widest">

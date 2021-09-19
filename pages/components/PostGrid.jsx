@@ -1,23 +1,12 @@
-import axios from "axios";
+
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getAllPosts } from "../../redux/actions";
+
 import Card from "./Card";
 
 const PostGrid = () => {
-	const dispatch = useDispatch();
 	const posts = useSelector((state) => state?.posts?.posts);
-
-	useEffect(() => {
-		const res = axios
-			.get("/api/posts")
-			.then((res) => {
-				dispatch(getAllPosts(res.data.data));
-			})
-			.catch((err) => console.log(err));
-		return res;
-	}, [dispatch]);
 
 	return (
 		<>
