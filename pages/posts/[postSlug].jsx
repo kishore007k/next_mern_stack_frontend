@@ -64,14 +64,16 @@ const PostDetails = () => {
 	return (
 		<div>
 			{!loaded ? (
-				<div className="container max-w-screen-xl mx-auto pt-10">Loading...</div>
+				<div className="container max-w-screen-xl mx-auto pt-10 px-2 lg:px-0">
+					Loading...
+				</div>
 			) : (
-				<div className="container max-w-screen-xl mx-auto pt-10 flex flex-col items-center space-y-14">
-					<h4 className="text-center uppercase font-sourceCodePro font-bold text-lg border-2 border-black px-2 tracking-widest">
+				<div className="container max-w-screen-xl mx-auto pt-10 flex flex-col items-center space-y-14 px-2 lg:px-0">
+					<h4 className="text-center uppercase font-sourceCodePro font-bold text-base lg:text-lg border-2 border-black px-2 tracking-widest">
 						category
 					</h4>
 
-					<h1 className="font-inter text-skin-base font-bold text-6xl">
+					<h1 className="font-inter text-skin-base font-bold text-3xl text-center lg:text-left lg:text-6xl">
 						{post.title}
 					</h1>
 
@@ -102,7 +104,7 @@ const PostDetails = () => {
 
 					<MarkdownViewer pBody={post.pBody} />
 
-					<div className="w-full flex flex-col items-center pb-40 space-y-10">
+					<div className="w-full flex flex-col items-center pb-10 lg:pb-40 space-y-10">
 						<div className="flex w-full relative">
 							<span className="w-full h-px bg-gray-300 absolute top-1/2" />
 							<div className="w-20 h-20 mx-auto bg-white z-10 userImage relative">

@@ -29,12 +29,12 @@ const Header = () => {
 	return (
 		<nav className="py-5 border-b border-lightBorder filter bg-white bg-opacity-70 fixed w-screen z-10 backdrop-filter backdrop-blur-md backdrop-saturate-150">
 			<div className="container mx-auto max-w-screen-xl flex justify-between items-center">
-				<div>
+				<div className="mx-auto lg:mx-0">
 					<Link href="/">
-						<a className="font-rampart font-bold text-2xl">K-Blog📝</a>
+						<a className="font-rampart font-bold lg:text-2xl text-3xl">K-Blog📝</a>
 					</Link>
 				</div>
-				<div className="flex items-center">
+				<div className="lg:flex items-center hidden">
 					<ul className="flex justify-center space-x-10 mr-12 font-semibold text-skin-base text-lg cursor-pointer relative">
 						<Link href="/">
 							<a className="hoverEffect font-klee">Services</a>

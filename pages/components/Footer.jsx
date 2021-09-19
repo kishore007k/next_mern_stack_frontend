@@ -1,8 +1,8 @@
 const Footer = () => {
 	return (
 		<footer className="mb-20">
-			<div className="container max-w-screen-xl mx-auto border-t border-gray-300 flex justify-between items-center py-10">
-				<p className="font-inter text-lg font-semibold text-gray-800 tracking-wider">
+			<div className="container max-w-screen-xl mx-auto border-t border-gray-300 flex flex-col lg:flex-row justify-between items-center text-center lg:text-left pt-10 lg:py-10">
+				<p className="font-inter text-lg font-semibold text-gray-800 tracking-wider mb-5 lg:mb-0">
 					Built with Next.js, React Markdown, Tailwind and Vercel
 				</p>
 				<div className="space-x-5">

@@ -35,6 +35,9 @@ module.exports = {
 							whiteSpace: "nowrap",
 							fontSize: "16px",
 						},
+						pre: {
+							maxWidth: "100%",
+						},
 					},
 				},
 			},
