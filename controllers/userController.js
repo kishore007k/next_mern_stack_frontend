@@ -92,7 +92,15 @@ export const userLogin = async (req, res) => {
 		const pMatch = bcrypt.compareSync(password, user.password);
 		if (!pMatch) return res.status(400).send({ error: "Password doesn't match" });
 		const token = jwt.sign({ email }, user.secretKey, { expiresIn: "6h" });
-		return res.status(200).send({ data: user, token });
+		return res.status(200).send({
+			data: {
+				userName: user.userName,
+				userImage: user.userImage,
+				email: user.email,
+				userPosts: user.userPosts,
+			},
+			token,
+		});
 	} catch (error) {
 		return res.status(400).send({ error: error });
 	}

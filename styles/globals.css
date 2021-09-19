@@ -80,3 +80,15 @@
 .floating-input>input:not(:placeholder-shown)~label {
 @apply opacity-75 scale-75 -translate-y-3 translate-x-1; 
 }
+
+.userImageNav::after{
+  position: absolute;
+  content: "";
+  width: 120px;
+  height: 120px;
+  background-color: #7bb4ff;
+  top: -10px;
+  left: -10px;
+  border-radius: 50%;
+  z-index: -1;
+}
