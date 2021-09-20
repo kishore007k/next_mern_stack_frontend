@@ -10,7 +10,7 @@ const MyApp = ({ Component, pageProps }) => {
 	return (
 		<Provider store={store}>
 			<Head>
-				<title>Blog Post</title>
+				<title>Blog App</title>
 				<link rel="shortcut icon" href="/logo.png" />
 			</Head>
 			<Layout>

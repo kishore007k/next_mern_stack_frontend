@@ -10,6 +10,7 @@ module.exports = {
 				lightGray: "var(--lightGray)",
 				darkGray: "var(--darkGray)",
 				border: "var(--border)",
+				activeColor: "var(--active)",
 			},
 			fontFamily: {
 				sourceCodePro: ["Source Code Pro", "monospace"],
