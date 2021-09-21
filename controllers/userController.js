@@ -60,7 +60,7 @@ export const getSingleUser = async (req, res) => {
 		const userId = req.query.userId;
 		const user = await UserModel.findById(userId).populate(
 			"userPosts",
-			"title slug desc pImage pBody"
+			"title slug desc pImage pBody createdAt"
 		);
 		if (!user) return res.status(404).send({ message: "No user found!" });
 		return res.status(200).send({ data: user });
@@ -98,6 +98,7 @@ export const userLogin = async (req, res) => {
 				userImage: user.userImage,
 				email: user.email,
 				userPosts: user.userPosts,
+				_id: user._id,
 			},
 			token,
 		});

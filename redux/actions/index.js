@@ -34,3 +34,17 @@ export const createPost = (data) => {
 		payload: data,
 	};
 };
+
+export const getSingleUser = (data) => {
+	return {
+		type: ActionTypes.GET_SINGLE_USER,
+		payload: data,
+	};
+};
+
+export const getAllUsers = (data) => {
+	return {
+		type: ActionTypes.GET_ALL_USERS,
+		payload: data,
+	};
+};

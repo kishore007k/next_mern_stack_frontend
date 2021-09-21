@@ -6,6 +6,9 @@ const ActionTypes = {
 	GET_POST: "GET_POST",
 
 	CREATE_POST: "CREATE_POST",
+
+	GET_SINGLE_USER: "GET_SINGLE_USER",
+	GET_ALL_USERS: "GET_ALL_USERS",
 };
 
 export default ActionTypes;

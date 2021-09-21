@@ -1,17 +1,24 @@
 import ActionTypes from "../constants";
 
 const INITIAL_STATE = {
-	users: {},
+	users: [],
+	user: {},
 	token: "",
 };
 
 const UserReducer = (state = INITIAL_STATE, { type, payload }) => {
 	switch (type) {
 		case ActionTypes.USER_SIGN_UP:
-			return { ...state, users: payload.data };
+			return { ...state, user: payload.data };
 
 		case ActionTypes.USER_SIGN_IN:
-			return { ...state, users: payload.data, token: payload.token };
+			return { ...state, user: payload.data, token: payload.token };
+
+		case ActionTypes.GET_SINGLE_USER:
+			return { ...state, user: payload.data };
+
+		case ActionTypes.GET_ALL_USERS:
+			return { ...state, users: [...payload.data] };
 
 		default:
 			return state;
