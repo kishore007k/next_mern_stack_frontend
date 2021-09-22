@@ -2,12 +2,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
 import fetchUser from "../../auth/fetchUser";
-import { useDispatch } from "react-redux";
 
 const Header = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,12 +28,14 @@ const Header = () => {
 
 	useEffect(() => {
 		const lToken = localStorage.getItem("token");
+		const user = localStorage.getItem("userData");
 		if (lToken || userToken) {
 			setIsLoggedIn(true);
 			setToken(lToken);
 		}
-		const user = localStorage.getItem("userData");
-		fetchUser({ id: user._id, dispatch });
+		if (user) {
+			fetchUser({ id: user._id, dispatch });
+		}
 	}, [token, userToken, dispatch]);
 
 	return (

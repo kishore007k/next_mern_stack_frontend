@@ -9,7 +9,7 @@ const Home = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		return fetchAllPosts({ dispatch });
+		fetchAllPosts({ dispatch });
 	}, [dispatch]);
 
 	return (
