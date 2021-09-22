@@ -2,40 +2,40 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
+import fetchUser from "../../auth/fetchUser";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [token, setToken] = useState("");
-	const [user, setUser] = useState({});
 
 	const [open, setOpen] = useState(false);
+	const dispatch = useDispatch();
 
 	const router = useRouter();
 	const userToken = useSelector((state) => state?.users?.token);
+	const user = useSelector((state) => state?.users?.user);
 
 	const handleLogOut = () => {
 		setIsLoggedIn(false);
-		Cookies.remove("userData");
-		Cookies.remove("token");
+		setOpen(false);
+		localStorage.clear();
 		router.push("/");
 	};
 
 	useEffect(() => {
-		const lToken = Cookies.get("token");
+		const lToken = localStorage.getItem("token");
 		if (lToken || userToken) {
 			setIsLoggedIn(true);
 			setToken(lToken);
 		}
-		var jsonStr = Cookies.get("userData");
-		var user = new Function("return " + jsonStr)();
-		setUser(user);
-		setOpen(false);
-	}, [token, userToken]);
+		const user = localStorage.getItem("userData");
+		fetchUser({ id: user._id, dispatch });
+	}, [token, userToken, dispatch]);
 
 	return (
 		<>
@@ -79,17 +79,21 @@ const Header = () => {
 												className="object-cover w-full h-full rounded-full drop-shadow-sm p-1 transition-all hover:bg-activeColor"
 											/>
 										</div>
-										<div className="hidden w-[180px] flex-col dropdown-menu absolute top-15 right-0 bg-white font-klee font-semibold text-lg py-3 px-1 drop-shadow-lg h-auto space-y-2">
+										<div className="hidden w-[180px] flex-col dropdown-menu absolute top-15 right-0 bg-white font-klee font-semibold text-lg py-3 px-2 drop-shadow-lg rounded-md h-auto space-y-2">
 											<div className="flex flex-col items-center space-y-2">
 												<Link href="/profile">
-													<a className="textHover w-full hover:bg-gray-50 py-2">Profile</a>
+													<a className="textHover w-full hover:bg-red-50 rounded-md py-2">
+														Profile
+													</a>
 												</Link>
 												<Link href="/dashboard">
-													<a className="textHover w-full hover:bg-gray-50 py-2">Dashboard</a>
+													<a className="textHover w-full hover:bg-red-50 rounded-md py-2">
+														Dashboard
+													</a>
 												</Link>
 											</div>
 											<button
-												className="inline-flex items-center justify-center font-klee font-semibold text-lg textHover w-full hover:bg-gray-50 py-2"
+												className="inline-flex items-center justify-center font-klee font-semibold text-lg textHover w-full hover:bg-red-50 rounded-md py-2"
 												onClick={handleLogOut}
 											>
 												Logout
@@ -100,7 +104,7 @@ const Header = () => {
 								</div>
 							) : (
 								<Link href="/auth">
-									<a className="font-klee font-bold text-white px-5 py-2 bg-gray-900 cursor-pointer transition-all duration-300 hover:bg-red-500">
+									<a className="font-klee font-bold text-white px-5 py-2 bg-gray-900 cursor-pointer transition-all duration-300 hover:bg-red-50 rounded-md0">
 										Login
 									</a>
 								</Link>
@@ -129,29 +133,53 @@ const Header = () => {
 						open ? "flex" : "hidden"
 					} fixed inset-0 bg-blue-50 z-40 flex-col items-center`}
 				>
-					<div className="w-[100px] h-[100px] mx-auto my-10 z-10 userImageNav relative drop-shadow-lg">
-						<img
-							src={user?.userImage}
-							alt={user?.userName}
-							className="w-full h-full object-cover rounded-full object-center drop-shadow-md"
-						/>
-					</div>
+					<Link href="/profile">
+						<a onClick={() => setOpen(false)}>
+							<div className="w-[100px] h-[100px] mx-auto my-10 z-10 userImageNav relative drop-shadow-lg">
+								<img
+									src={user?.userImage}
+									alt={user?.userName}
+									className="w-full h-full object-cover rounded-full object-center drop-shadow-md"
+								/>
+							</div>
+						</a>
+					</Link>
 					<p className="font-inter font-semibold text-lg text-blue-500 uppercase tracking-wider">
 						{user?.userName}
 					</p>
 					<div className="flex flex-col space-y-10 font-klee font-semibold text-xl text-blue-800 text-center mt-20">
 						<Link href="/">
-							<a className="focus:hoverEffect">Home</a>
+							<a onClick={() => setOpen(false)} className="focus:hoverEffect">
+								Home
+							</a>
 						</Link>
 						<Link href="/create/posts">
-							<a className="focus:hoverEffect">Blogs</a>
+							<a onClick={() => setOpen(false)} className="focus:hoverEffect">
+								Blogs
+							</a>
 						</Link>
 						<Link href="/">
-							<a className="focus:hoverEffect">About</a>
+							<a onClick={() => setOpen(false)} className="focus:hoverEffect">
+								About
+							</a>
 						</Link>
 						<Link href="/">
-							<a className="focus:hoverEffect">Contact</a>
+							<a onClick={() => setOpen(false)} className="focus:hoverEffect">
+								Contact
+							</a>
 						</Link>
+						{isLoggedIn ? (
+							<button onClick={handleLogOut} className="flex items-center space-x-2">
+								<span>Logout</span>
+								<FiLogOut className="text-blue-800" />
+							</button>
+						) : (
+							<Link href="/auth">
+								<a onClick={() => setOpen(false)} className="focus:hoverEffect">
+									Login
+								</a>
+							</Link>
+						)}
 					</div>
 				</div>
 			</div>
@@ -160,21 +188,3 @@ const Header = () => {
 };
 
 export default Header;
-
-{
-	/* <div class="p-10">
-
-<div class="dropdown inline-block relative">
-	<button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-		<span class="mr-1">Dropdown</span>
-		<svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
-	</button>
-	<ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-		<li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">One</a></li>
-		<li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">Two</a></li>
-		<li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">Three is the magic number</a></li>
-	</ul>
-</div>
-
-</div> */
-}

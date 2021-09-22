@@ -48,3 +48,10 @@ export const getAllUsers = (data) => {
 		payload: data,
 	};
 };
+
+export const updateUser = (data) => {
+	return {
+		type: ActionTypes.UPDATE_USER,
+		payload: data,
+	};
+};

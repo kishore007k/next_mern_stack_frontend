@@ -9,6 +9,8 @@ const ActionTypes = {
 
 	GET_SINGLE_USER: "GET_SINGLE_USER",
 	GET_ALL_USERS: "GET_ALL_USERS",
+
+	UPDATE_USER: "UPDATE_USER",
 };
 
 export default ActionTypes;

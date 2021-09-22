@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUser, signInUser } from "../redux/actions";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
 import Head from "next/head";
 
 const AuthPage = () => {
@@ -45,8 +44,8 @@ const AuthPage = () => {
 			})
 			.then((res) => {
 				dispatch(signInUser(res.data));
-				Cookies.set("userData", JSON.stringify(res.data.data));
-				Cookies.set("token", res.data.token);
+				localStorage.setItem("userData", JSON.stringify(res.data.data));
+				localStorage.setItem("token", JSON.stringify(res.data.token));
 				router.push("/");
 			})
 			.catch((err) => console.log(err));

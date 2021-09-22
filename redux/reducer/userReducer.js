@@ -4,6 +4,7 @@ const INITIAL_STATE = {
 	users: [],
 	user: {},
 	token: "",
+	message: "",
 };
 
 const UserReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -19,6 +20,9 @@ const UserReducer = (state = INITIAL_STATE, { type, payload }) => {
 
 		case ActionTypes.GET_ALL_USERS:
 			return { ...state, users: [...payload.data] };
+
+		case ActionTypes.UPDATE_USER:
+			return { ...state, message: payload.data };
 
 		default:
 			return state;

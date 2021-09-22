@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import withAuth from "../auth/withAuth";
+import withAuth from "../../auth/withAuth";
 import { useDispatch } from "react-redux";
 import { createPost } from "../../redux/actions";
 import router from "next/router";
-import Cookies from "js-cookie";
 import FileBase from "react-file-base64";
 import MarkdownViewer from "../components/MarkdownViewer";
 
@@ -22,7 +21,7 @@ const CreatePosts = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		var jsonStr = Cookies.get("userData");
+		var jsonStr = localStorage.getItem("userData");
 		var userData = new Function("return " + jsonStr)();
 		setUser(userData);
 	}, []);

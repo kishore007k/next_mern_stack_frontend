@@ -1,22 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "./components/Loader";
 import PostGrid from "./components/PostGrid";
-import { getAllPosts } from "../redux/actions";
-import axios from "axios";
 import { useEffect } from "react";
+import fetchAllPosts from "../auth/fetchAllPosts";
 
 const Home = () => {
 	const posts = useSelector((state) => state?.posts?.posts);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const res = axios
-			.get("/api/posts")
-			.then((res) => {
-				dispatch(getAllPosts(res.data.data));
-			})
-			.catch((err) => console.log(err));
-		return res;
+		return fetchAllPosts({ dispatch });
 	}, [dispatch]);
 
 	return (

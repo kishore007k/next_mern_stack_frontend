@@ -35,6 +35,24 @@ const userSchema = new mongoose.Schema(
 				ref: "posts",
 			},
 		],
+		name: {
+			type: String,
+		},
+		websiteLink: {
+			type: String,
+		},
+		location: {
+			type: String,
+		},
+		bio: {
+			type: String,
+		},
+		work: {
+			type: String,
+		},
+		education: {
+			type: String,
+		},
 	},
 	{
 		timestamps: true,
