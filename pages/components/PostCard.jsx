@@ -51,13 +51,13 @@ const PostCard = ({ user, post }) => {
 					</Link>
 				</h1>
 				<div className="space-x-5">
-					<code className=" text-sm transition-all text-gray-900 font-extrabold font-klee bg-green-100 hover:bg-green-200 px-1 py-[2px] rounded drop-shadow-sm">
+					<code className=" text-sm transition-all text-green-500 font-extrabold font-klee bg-green-100 hover:bg-green-200 hover:text-green-700 px-1 py-[2px] rounded drop-shadow-sm">
 						#showdev
 					</code>
-					<code className=" text-sm transition-all text-gray-900 font-extrabold font-klee bg-red-100 hover:bg-red-200 px-1 py-[2px] rounded drop-shadow-sm">
+					<code className=" text-sm transition-all text-red-500 font-extrabold font-klee bg-red-100 hover:bg-red-200 hover:text-red-700 px-1 py-[2px] rounded drop-shadow-sm">
 						#react
 					</code>
-					<code className=" text-sm transition-all text-gray-900 font-extrabold font-klee bg-purple-100 hover:bg-purple-200 px-1 py-[2px] rounded drop-shadow-sm">
+					<code className=" text-sm transition-all text-purple-500 font-extrabold font-klee bg-purple-100 hover:bg-purple-200 hover:text-purple-700 px-1 py-[2px] rounded drop-shadow-sm">
 						#next
 					</code>
 				</div>

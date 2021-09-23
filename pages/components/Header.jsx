@@ -7,6 +7,8 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
 import fetchUser from "../../auth/fetchUser";
+import { RiChatSmile3Fill } from "react-icons/ri";
+import { MdNotificationsActive } from "react-icons/md";
 
 const Header = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,18 +57,21 @@ const Header = () => {
 						</Link>
 					</div>
 					<div className="xl:flex items-center hidden">
-						<ul className="flex justify-center space-x-10 mr-12 font-bold text-skin-base text-lg cursor-pointer relative">
-							<Link href="/">
-								<a className="hoverEffect font-klee">Home</a>
-							</Link>
+						<ul className="flex items-center space-x-10 mr-12 relative">
 							<Link href="/create/posts">
-								<a className="hoverEffect font-klee">Blogs</a>
+								<a className="font-inter text-red-400 p-3 bg-red-100 rounded-md drop-shadow-sm hover:bg-red-200 font-semibold hover:text-red-500 hover:drop-shadow-lg">
+									Create Post
+								</a>
 							</Link>
-							<Link href="/">
-								<a className="hoverEffect font-klee">About</a>
+							<Link href="#">
+								<a className="fill-current text-red-400 transition-all hover:text-red-500">
+									<RiChatSmile3Fill className="w-[30px] h-[30px]" />
+								</a>
 							</Link>
-							<Link href="/">
-								<a className="hoverEffect font-klee">Contact</a>
+							<Link href="#">
+								<a className="fill-current text-red-400 transition-all hover:text-red-500">
+									<MdNotificationsActive className="w-[30px] h-[30px]" />
+								</a>
 							</Link>
 						</ul>
 						<div>
@@ -105,7 +110,7 @@ const Header = () => {
 								</div>
 							) : (
 								<Link href="/auth">
-									<a className="font-klee font-bold text-white px-5 py-2 bg-gray-900 cursor-pointer transition-all duration-300 hover:bg-red-50 rounded-md0">
+									<a className="font-klee font-bold text-white px-5 py-2 bg-gray-900 cursor-pointer transition-all duration-300 hover:bg-red-400 rounded-md0">
 										Login
 									</a>
 								</Link>
@@ -120,19 +125,19 @@ const Header = () => {
 				<button
 					className={`${
 						open ? "top-2" : "bottom-2"
-					} fixed right-2 bg-blue-100 active:bg-activeColor p-2 rounded-full z-50 drop-shadow-lg`}
+					} fixed right-2 bg-red-100 active:bg-activeColor p-2 rounded-full z-50 drop-shadow-lg`}
 					onClick={() => setOpen(!open)}
 				>
 					{open ? (
-						<IoClose className="w-8 h-8 text-blue-500 active:text-activeColor fill-current object-fill" />
+						<IoClose className="w-8 h-8 text-red-500 active:text-activeColor fill-current object-fill" />
 					) : (
-						<HiMenuAlt3 className="w-8 h-8 text-blue-500 active:text-activeColor fill-current object-fill" />
+						<HiMenuAlt3 className="w-8 h-8 text-red-500 active:text-activeColor fill-current object-fill" />
 					)}
 				</button>
 				<div
 					className={`${
 						open ? "flex" : "hidden"
-					} fixed inset-0 bg-blue-50 z-40 flex-col items-center`}
+					} fixed inset-0 bg-red-50 z-40 flex-col items-center`}
 				>
 					<Link href="/profile">
 						<a onClick={() => setOpen(false)}>
@@ -145,10 +150,10 @@ const Header = () => {
 							</div>
 						</a>
 					</Link>
-					<p className="font-inter font-semibold text-lg text-blue-500 uppercase tracking-wider">
+					<p className="font-inter font-semibold text-lg text-red-500 uppercase tracking-wider">
 						{user?.userName}
 					</p>
-					<div className="flex flex-col space-y-10 font-klee font-semibold text-xl text-blue-800 text-center mt-20">
+					<div className="flex flex-col space-y-10 font-klee font-semibold text-xl text-red-800 text-center mt-20">
 						<Link href="/">
 							<a onClick={() => setOpen(false)} className="focus:hoverEffect">
 								Home
@@ -172,7 +177,7 @@ const Header = () => {
 						{isLoggedIn ? (
 							<button onClick={handleLogOut} className="flex items-center space-x-2">
 								<span>Logout</span>
-								<FiLogOut className="text-blue-800" />
+								<FiLogOut className="text-red-800" />
 							</button>
 						) : (
 							<Link href="/auth">

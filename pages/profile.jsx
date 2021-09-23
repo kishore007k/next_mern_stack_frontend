@@ -60,7 +60,7 @@ const Profile = () => {
 					{/* Container */}
 					<div className="mb-40 container max-w-screen-xl mx-auto overflow-hidden lg:px-5 xl:px-0">
 						{/* Gradient */}
-						<div className="absolute top-0 right-0 left-0 bg-blue-500 h-80 drop-shadow-sm" />
+						<div className="absolute top-0 right-0 left-0 bg-red-400 h-80 drop-shadow-sm" />
 
 						{/* Card */}
 						<div className="relative bg-white border-[1px] border-border lg:rounded-lg drop-shadow-sm top-32 mb-40 px-5 pb-10">
@@ -68,17 +68,17 @@ const Profile = () => {
 								<img
 									src={user?.userImage}
 									alt={user?.userName}
-									className="object-cover w-full h-full rounded-full p-2 bg-blue-500"
+									className="object-cover w-full h-full rounded-full p-2 bg-red-400"
 								/>
 							</div>
 							{/* White Div */}
 							<div>
-								<button className="absolute hidden lg:block top-5 right-5 bg-blue-400 px-3 py-2 rounded-sm drop-shadow-md transition-all hover:bg-blue-500 hover:drop-shadow-lg text-white">
+								<button className="absolute hidden lg:block top-5 right-5 bg-red-400 px-3 py-2 rounded-sm drop-shadow-md transition-all hover:bg-red-500 hover:drop-shadow-lg text-white">
 									<Link href="/profile/edit">
 										<a>Edit Profile</a>
 									</Link>
 								</button>
-								<button className="absolute block lg:hidden top-5 right-5 bg-blue-400 px-3 py-2 rounded-sm drop-shadow-md transition-all hover:bg-blue-500 hover:drop-shadow-lg text-white">
+								<button className="absolute block lg:hidden top-5 right-5 bg-red-400 px-3 py-2 rounded-sm drop-shadow-md transition-all hover:bg-red-500 hover:drop-shadow-lg text-white">
 									<Link href="/profile/edit">
 										<a>
 											<FaUserEdit className="w-5 h-5" />
