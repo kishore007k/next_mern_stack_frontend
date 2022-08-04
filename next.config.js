@@ -9,8 +9,8 @@ module.exports = {
 		SUPABASE_URL: "https://lfrpirxidnruxqfhkwed.supabase.co",
 		SUPABASE_KEY:
 			"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmcnBpcnhpZG5ydXhxZmhrd2VkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTk1MzM4OTksImV4cCI6MTk3NTEwOTg5OX0.enitp-2gy5pPYZHkQ3cAABuVqLufz-MUcMFaWVpfoZc",
-		BACKEND_URL_PROD: "https://next-mern-stack-frontend.vercel.app/",
-		BACKEND_URL_DEV: "http://localhost:3000/",
+		BACKEND_URL_PROD: "https://next-mern-stack-frontend.vercel.app",
+		BACKEND_URL_DEV: "http://localhost:3000",
 	},
 	images: {
 		domains: ["res.cloudinary.com"],
