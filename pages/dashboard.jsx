@@ -1,29 +1,10 @@
 import Link from "next/link";
 import { ImHeart } from "react-icons/im";
 import { FaComment, FaRegEye } from "react-icons/fa";
+import axios from "axios";
 
-// const posts = [
-// 	{
-// 		title: "Make it easy! &apos;React useContext&apos;",
-// 		createdAt: "Oct 22, 2020",
-// 		updatedAt: "Oct 24, 2020",
-// 		slug: "make-it-easy-react-usecontext",
-// 		likes: 25,
-// 		comments: 4,
-// 		views: 2546,
-// 	},
-// 	{
-// 		title: "Map API 🌏",
-// 		createdAt: "Aug 9, 2020",
-// 		updatedAt: "",
-// 		slug: "map-api",
-// 		likes: 25,
-// 		comments: 4,
-// 		views: 2546,
-// 	},
-// ];
-
-const Dashboard = () => {
+const Dashboard = ({ posts }) => {
+	console.log("posts", posts);
 	return (
 		<div>
 			<h1 className="font-rampart text-3xl text-gray-700 font-semibold py-10">
@@ -116,57 +97,107 @@ const Dashboard = () => {
 					<h1 className="font-inter text-2xl text-gray-700 font-semibold mb-5">
 						Posts
 					</h1>
-					<div className="bg-white border-[1px] border-border drop-shadow-sm p-5 rounded-md text-gray-800 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-500">
-						<Link href="/">
-							<a className="flex justify-between items-center">
-								<div>
-									<h1 className="font-inter text-2xl mb-5 font-semibold">
-										Make it easy! &apos;React useContext&apos;
-									</h1>
-									<div className="flex items-center text-gray-700 space-x-5 font-medium text-base">
-										<p>
-											Published: <span className="font-normal">Oct 24, 2020</span>
-										</p>
-										<p>
-											Edited: <span className="font-normal">Oct 22, 2020</span>
-										</p>
-									</div>
-								</div>
-								<div className="flex items-center space-x-4">
-									<div className="flex items-center space-x-1">
+					{posts.map((post) => {
+						const cDate = new Date(post.createdAt);
+						const uDate = new Date(post.updatedAt);
+
+						Date.prototype.getMonthName = function () {
+							return [
+								"Jan",
+								"Feb",
+								"Mar",
+								"Apr",
+								"May",
+								"Jun",
+								"Jul",
+								"Aug",
+								"Sep",
+								"Oct",
+								"Nov",
+								"Dec",
+							][this.getMonth()];
+						};
+
+						const newDate = cDate.getDate();
+						const year = cDate.getFullYear();
+						const month = cDate.getMonthName();
+
+						const uNewDate = uDate.getDate();
+						const uYear = uDate.getFullYear();
+						const uMonth = uDate.getMonthName();
+
+						return (
+							<div
+								key={post._id}
+								className="bg-white border-[1px] border-border drop-shadow-sm p-5 rounded-md text-gray-800 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-500"
+							>
+								<Link href={`posts/${post.slug}`}>
+									<a className="flex justify-between items-center">
 										<div>
-											<ImHeart className="w-6 h-6 fill-current text-gray-800" />
+											<h1 className="font-inter text-2xl mb-5 font-semibold">
+												{post.title}
+											</h1>
+											<div className="flex items-center text-gray-700 space-x-5 font-medium text-base">
+												<p>
+													Published:{" "}
+													<span className="font-normal">
+														{month} {newDate}, {year}
+													</span>
+												</p>
+												<p>
+													Edited:{" "}
+													<span className="font-normal">
+														{uMonth} {uNewDate}, {uYear}
+													</span>
+												</p>
+											</div>
 										</div>
-										<span className="font-semibold text-gray-800">25</span>
-									</div>
-									<div className="flex items-center space-x-1">
-										<div>
-											<FaComment className="w-6 h-6 fill-current text-gray-800" />
+										<div className="flex items-center space-x-4 mr-2">
+											<div className="flex items-center space-x-1">
+												<div>
+													<ImHeart className="w-6 h-6 fill-current text-gray-800" />
+												</div>
+												<span className="font-semibold text-gray-800">25</span>
+											</div>
+											<div className="flex items-center space-x-1">
+												<div>
+													<FaComment className="w-6 h-6 fill-current text-gray-800" />
+												</div>
+												<span className="font-semibold text-gray-800">4</span>
+											</div>
+											<div className="flex items-center space-x-1">
+												<div>
+													<FaRegEye className="w-6 h-6 fill-current text-gray-800" />
+												</div>
+												<span className="font-semibold text-gray-800">2564</span>
+											</div>
 										</div>
-										<span className="font-semibold text-gray-800">4</span>
-									</div>
-									<div className="flex items-center space-x-1">
-										<div>
-											<FaRegEye className="w-6 h-6 fill-current text-gray-800" />
+										<div className="flex items-center space-x-2">
+											<button className="text-gray-700 font-medium text-lg capitalize px-3 py-1 transition-all rounded-md hover:drop-shadow-sm hover:bg-red-200">
+												manage
+											</button>
+											<button className="text-gray-700 font-medium text-lg capitalize px-5 py-1 transition-all rounded-md hover:drop-shadow-sm hover:bg-red-200">
+												edit
+											</button>
 										</div>
-										<span className="font-semibold text-gray-800">2564</span>
-									</div>
-								</div>
-								<div className="flex items-center space-x-2">
-									<button className="text-gray-700 font-medium text-lg capitalize px-3 py-1 transition-all rounded-md hover:drop-shadow-sm hover:bg-red-200">
-										manage
-									</button>
-									<button className="text-gray-700 font-medium text-lg capitalize px-5 py-1 transition-all rounded-md hover:drop-shadow-sm hover:bg-red-200">
-										edit
-									</button>
-								</div>
-							</a>
-						</Link>
-					</div>
+									</a>
+								</Link>
+							</div>
+						);
+					})}
 				</div>
 			</div>
 		</div>
 	);
+};
+
+export const getStaticProps = async () => {
+	const { data: posts } = await axios.get("http://localhost:3000/api/posts");
+	return {
+		props: {
+			posts: posts.data,
+		},
+	};
 };
 
 export default Dashboard;

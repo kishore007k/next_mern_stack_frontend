@@ -1,14 +1,24 @@
 import axios from "axios";
-import { getSingleUser } from "../redux/actions";
+import {
+	getSingleUserRequest,
+	getSingleUserSuccess,
+	getSingleUserFailure,
+} from "../redux/reducer/userReducer";
 
-const fetchUser = async ({ id, setLoading, dispatch }) => {
+const fetchUser = async ({ id, dispatch }) => {
 	const res = await axios
-		.get(`/api/users/${id}`)
+		.get(`http://localhost:3000/api/users/${id}`)
 		.then((res) => {
-			dispatch(getSingleUser(res.data));
-			setLoading(false);
+			dispatch(getSingleUserRequest());
+
+			if (res.data) {
+				dispatch(getSingleUserSuccess(res.data));
+			}
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			console.error(err);
+			dispatch(getSingleUserFailure(err));
+		});
 	return res;
 };
 

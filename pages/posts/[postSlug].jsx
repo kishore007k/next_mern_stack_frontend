@@ -1,27 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from "next/router";
+
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { getPost } from "../../redux/actions";
-import { useSelector } from "react-redux";
-import MarkdownViewer from "../components/MarkdownViewer";
+import { useState } from "react";
+import MarkdownViewer from "../../components/MarkdownViewer";
 import readingTime from "reading-time";
 import Image from "next/image";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import Head from "next/head";
 
-const PostDetails = () => {
-	const router = useRouter();
-	const postSlug = router.query.postSlug;
+export const getStaticPaths = async () => {
+	const { data: posts } = await axios.get("http://localhost:3000/api/posts");
+	const paths = [];
+	posts.data.forEach((post) => {
+		paths.push({ params: { postSlug: post.slug } });
+	});
 
+	return {
+		paths,
+		fallback: false,
+	};
+};
+
+export const getStaticProps = async (context) => {
+	const { data: post } = await axios.get(
+		`http://localhost:3000/api/posts/${context.params.postSlug}`
+	);
+	return {
+		props: {
+			post: post.data._doc,
+		},
+	};
+};
+
+export default function PostDetails({ post }) {
 	const [loaded, setLoaded] = useState(false);
 	const [stats, setStats] = useState({});
 
-	const dispatch = useDispatch();
-	const post = useSelector((state) => state?.posts?.post);
-
-	const date = new Date(post.createdAt);
+	const date = new Date(post?.createdAt);
 
 	Date.prototype.getMonthName = function () {
 		return [
@@ -43,17 +58,6 @@ const PostDetails = () => {
 	const newDate = date.getDate();
 	const year = date.getFullYear();
 	const month = date.getMonthName();
-
-	useEffect(() => {
-		const res = axios
-			.get(`/api/posts/${postSlug}`)
-			.then((res) => {
-				dispatch(getPost(res.data.data));
-			})
-			.catch((err) => console.log(err));
-		setStats({});
-		return res;
-	}, [dispatch, postSlug]);
 
 	setTimeout(() => {
 		if (post.pBody) {
@@ -125,7 +129,7 @@ const PostDetails = () => {
 									{post.pAuthor.userName}
 								</h4>
 								<p className="text-center capitalize text-sm font-inter font-medium tracking-wider text-gray-500">
-									flim maker at red rocks church
+									film maker at red rocks church
 								</p>
 							</div>
 						</div>
@@ -134,6 +138,4 @@ const PostDetails = () => {
 			)}
 		</div>
 	);
-};
-
-export default PostDetails;
+}

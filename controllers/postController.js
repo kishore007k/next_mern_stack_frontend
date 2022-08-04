@@ -21,7 +21,7 @@ export const createPost = async (req, res) => {
 		}
 		return res.status(201).send({ data: newPost });
 	} catch (error) {
-		return res.status(400).send({ error: "Something went Wrong" });
+		return res.status(400).send({ error });
 	}
 };
 
@@ -37,7 +37,7 @@ export const editPost = async (req, res) => {
 		}
 		return res.status(201).send({ data: updatedPosts });
 	} catch (error) {
-		return res.status(400).send({ error: error });
+		return res.status(400).send({ error });
 	}
 };
 
@@ -52,7 +52,7 @@ export const deletePost = async (req, res) => {
 			.status(201)
 			.send({ message: "Post has been deleted successfully" });
 	} catch (error) {
-		return res.status(400).send({ error: error });
+		return res.status(400).send({ error });
 	}
 };
 
@@ -74,6 +74,9 @@ export const getAllPosts = async (req, res) => {
 export const getPost = async (req, res) => {
 	try {
 		const postSlug = req.query.postSlug;
+
+		console.log("postSlug from api", req);
+
 		const post = await PostModel.findOne({ slug: postSlug }).populate(
 			"pAuthor",
 			"userName email userImage"
@@ -81,7 +84,7 @@ export const getPost = async (req, res) => {
 		if (!post) {
 			return res.status(400).send({ message: "No Post" });
 		}
-		return res.status(200).send({ data: post });
+		return res.status(200).send({ data: { ...post } });
 	} catch (error) {
 		return res.status(401).send({ error });
 	}

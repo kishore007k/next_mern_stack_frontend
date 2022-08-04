@@ -3,16 +3,20 @@ import withAuth from "../../auth/withAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import fetchUser from "../../auth/fetchUser";
-import Loader from "../components/Loader";
 import Link from "next/link";
 import FileBase from "react-file-base64";
 import axios from "axios";
-import { updateUser } from "../../redux/actions";
 import router from "next/router";
+import {
+	updateUserFailure,
+	updateUserRequest,
+	updateUserSuccess,
+} from "../../redux/reducer/userReducer";
+import Loader from "../../components/Loader";
 
 const Edit = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state?.users?.user);
+	const user = useSelector((state) => state.userReducer.user);
 
 	const [loading, setLoading] = useState(true);
 	const [userName, setUserName] = useState(user?.userName);
@@ -36,7 +40,7 @@ const Edit = () => {
 	const updateUserDetails = async (e) => {
 		e.preventDefault();
 		const res = await axios
-			.put("/api/users", {
+			.put("http://localhost:3000/api/users", {
 				userId: user._id,
 				updatedData: {
 					name,
@@ -51,18 +55,25 @@ const Edit = () => {
 				},
 			})
 			.then((res) => {
-				dispatch(updateUser(res.data.message));
-				router.push("/profile");
+				setLoading(true);
+				dispatch(updateUserRequest());
+
+				if (res.data) {
+					dispatch(updateUserSuccess(res.data.message));
+					router.push("/profile");
+				}
 			})
-			.catch((err) => console.error(err));
+			.catch((err) => {
+				console.error(err);
+				dispatch(updateUserFailure(err));
+			});
 		return res;
 	};
 
 	useEffect(() => {
-		var jsonStr = localStorage.getItem("userData");
-		var localUser = new Function("return " + jsonStr)();
-		fetchUser({ id: localUser._id, setLoading, dispatch });
-	}, [dispatch]);
+		fetchUser({ id: user._id, dispatch });
+		setLoading(false);
+	}, [dispatch, user._id]);
 
 	return (
 		<>

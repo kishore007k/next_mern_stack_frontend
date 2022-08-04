@@ -1,3 +1,14 @@
 {
-	"cSpell.words": ["Dropzone", "hexgen", "maxlength", "monospace", "semibold"]
+	"cSpell.words": [
+		"Dropzone",
+		"hexgen",
+		"maxlength",
+		"middlewares",
+		"monospace",
+		"reduxjs",
+		"rehype",
+		"semibold",
+		"supabase",
+		"tailwindcss"
+	]
 }

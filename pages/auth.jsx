@@ -2,9 +2,16 @@
 import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createUser, signInUser } from "../redux/actions";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import {
+	signInFailure,
+	signInRequest,
+	signInSuccess,
+	signUpFailure,
+	signUpRequest,
+	signUpSuccess,
+} from "../redux/reducer/userReducer";
 
 const AuthPage = () => {
 	const [userName, setUserName] = useState("");
@@ -27,10 +34,18 @@ const AuthPage = () => {
 				email,
 			})
 			.then((res) => {
-				dispatch(createUser(res.data));
+				dispatch(signUpRequest());
+
+				if (res.data) {
+					dispatch(signUpSuccess(res.data));
+				}
+
 				setSignUp(true);
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log({ err });
+				dispatch(signUpFailure(err));
+			});
 
 		return res;
 	};
@@ -43,12 +58,18 @@ const AuthPage = () => {
 				email,
 			})
 			.then((res) => {
-				dispatch(signInUser(res.data));
-				localStorage.setItem("userData", JSON.stringify(res.data.data));
-				localStorage.setItem("token", JSON.stringify(res.data.token));
-				router.push("/");
+				dispatch(signInRequest());
+
+				if (res.data) {
+					dispatch(signInSuccess(res.data));
+					localStorage.setItem("user", JSON.stringify(res.data.data));
+					router.push("/");
+				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log({ err });
+				dispatch(signInFailure(err));
+			});
 
 		return res;
 	};

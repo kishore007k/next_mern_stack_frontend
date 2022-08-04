@@ -1,32 +1,122 @@
-import ActionTypes from "../constants";
+import { createSlice } from "@reduxjs/toolkit";
 
-const INITIAL_STATE = {
+const usersInitialState = {
 	users: [],
 	user: {},
 	token: "",
 	message: "",
+	isLoading: false,
+	status: "STATIC",
 };
 
-const UserReducer = (state = INITIAL_STATE, { type, payload }) => {
-	switch (type) {
-		case ActionTypes.USER_SIGN_UP:
-			return { ...state, user: payload.data };
+export const usersSlice = createSlice({
+	name: "users",
+	initialState: usersInitialState,
+	reducers: {
+		signUpRequest: (state) => {
+			state.isLoading = true;
+			state.status = "LOADING";
+		},
+		signUpSuccess: (state, action) => {
+			state.user = action.payload.data;
+			state.isLoading = false;
+			state.status = "SUCCESS";
+			state.message = "";
+			state.token = "";
+		},
+		signUpFailure: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "FAILURE";
+			state.user = {};
+		},
 
-		case ActionTypes.USER_SIGN_IN:
-			return { ...state, user: payload.data, token: payload.token };
+		signInRequest: (state) => {
+			state.isLoading = true;
+			state.status = "LOADING";
+		},
+		signInSuccess: (state, action) => {
+			state.user = action.payload.data;
+			state.token = action.payload.token;
+			state.isLoading = false;
+			state.status = "SUCCESS";
+			state.message = "";
+		},
+		signInFailure: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "FAILURE";
+			state.user = {};
+		},
 
-		case ActionTypes.GET_SINGLE_USER:
-			return { ...state, user: payload.data };
+		getAllUsersRequest: (state) => {
+			state.isLoading = true;
+			state.status = "LOADING";
+		},
+		getAllUsersSuccess: (state, action) => {
+			state.users = action.payload.data;
+			state.isLoading = false;
+			state.status = "SUCCESS";
+			state.message = "";
+		},
+		getAllUsersFailure: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "FAILURE";
+			state.users = [];
+		},
 
-		case ActionTypes.GET_ALL_USERS:
-			return { ...state, users: [...payload.data] };
+		getSingleUserRequest: (state) => {
+			state.isLoading = true;
+			state.status = "LOADING";
+		},
+		getSingleUserSuccess: (state, action) => {
+			state.user = action.payload.data;
+			state.isLoading = false;
+			state.status = "SUCCESS";
+			state.message = "";
+		},
+		getSingleUserFailure: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "FAILURE";
+			state.user = {};
+		},
 
-		case ActionTypes.UPDATE_USER:
-			return { ...state, message: payload.data };
+		updateUserRequest: (state) => {
+			state.isLoading = true;
+			state.status = "LOADING";
+		},
+		updateUserSuccess: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "SUCCESS";
+		},
+		updateUserFailure: (state, action) => {
+			state.message = action.payload.message;
+			state.isLoading = false;
+			state.status = "FAILURE";
+			state.user = {};
+		},
+	},
+});
 
-		default:
-			return state;
-	}
-};
+export const {
+	signUpRequest,
+	signUpSuccess,
+	signUpFailure,
+	signInRequest,
+	signInSuccess,
+	signInFailure,
+	getAllUsersRequest,
+	getAllUsersSuccess,
+	getAllUsersFailure,
+	getSingleUserRequest,
+	getSingleUserSuccess,
+	getSingleUserFailure,
+	updateUserRequest,
+	updateUserSuccess,
+	updateUserFailure,
+} = usersSlice.actions;
 
-export default UserReducer;
+export default usersSlice.reducer;

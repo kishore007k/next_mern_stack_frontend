@@ -1,13 +1,24 @@
 import axios from "axios";
-import { getAllPosts } from "../redux/actions";
+import {
+	fetchAllPostsStart,
+	fetchAllPostsSuccess,
+	fetchAllPostsFailure,
+} from "../redux/reducer/postReducer";
 
 const fetchAllPosts = async ({ dispatch }) => {
 	const res = await axios
 		.get("/api/posts")
 		.then((res) => {
-			dispatch(getAllPosts(res.data.data));
+			dispatch(fetchAllPostsStart());
+
+			if (res.data) {
+				dispatch(fetchAllPostsSuccess(res.data.data));
+			}
 		})
-		.catch((err) => console.error(err));
+		.catch((err) => {
+			console.error({ err });
+			dispatch(fetchAllPostsFailure(err));
+		});
 	return res;
 };
 

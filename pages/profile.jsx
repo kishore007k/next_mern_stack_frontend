@@ -7,15 +7,15 @@ import { CgLink } from "react-icons/cg";
 import { GoMarkGithub } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserEdit } from "react-icons/fa";
-import Loader from "./components/Loader";
-import PostCard from "./components/PostCard";
+import Loader from "../components/Loader";
+import PostCard from "../components/PostCard";
 import withAuth from "../auth/withAuth";
 import Link from "next/link";
 import fetchUser from "../auth/fetchUser";
 
 const Profile = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state?.users?.user);
+	const user = useSelector((state) => state.userReducer.user);
 
 	const [loading, setLoading] = useState(true);
 
@@ -43,10 +43,10 @@ const Profile = () => {
 	const month = date.getMonthName();
 
 	useEffect(() => {
-		var jsonStr = localStorage.getItem("userData");
-		var localUser = new Function("return " + jsonStr)();
-		fetchUser({ id: localUser._id, setLoading, dispatch });
-	}, [dispatch]);
+		setLoading(true);
+		fetchUser({ id: user._id, dispatch });
+		setLoading(false);
+	}, [dispatch, user._id]);
 
 	return (
 		<>

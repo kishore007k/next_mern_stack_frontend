@@ -1,7 +1,28 @@
-import { createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import reducers from "./reducer";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import userReducer from "./reducer/userReducer";
+import postReducer from "./reducer/postReducer";
 
-const store = createStore(reducers, composeWithDevTools());
+import storage from "redux-persist/lib/storage";
+import { persistStore, persistReducer } from "redux-persist";
+import { createLogger } from "redux-logger";
 
-export default store;
+const persistConfig = {
+	key: "root",
+	storage,
+};
+
+const rootReducer = combineReducers({
+	userReducer,
+	postReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const middlewares = [createLogger()];
+
+export const store = configureStore({
+	reducer: persistedReducer,
+	middleware: middlewares,
+});
+
+export const persistor = persistStore(store);

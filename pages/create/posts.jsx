@@ -3,10 +3,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import withAuth from "../../auth/withAuth";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../redux/actions";
 import router from "next/router";
 import FileBase from "react-file-base64";
-import MarkdownViewer from "../components/MarkdownViewer";
+import MarkdownViewer from "../../components/MarkdownViewer";
+import {
+	createPostFailure,
+	createPostStart,
+	createPostSuccess,
+} from "../../redux/reducer/postReducer";
+import { useSelector } from "react-redux";
 
 const CreatePosts = () => {
 	const [cover, setCover] = useState("");
@@ -19,12 +24,12 @@ const CreatePosts = () => {
 	const [user, setUser] = useState({});
 
 	const dispatch = useDispatch();
+	const userData = useSelector((state) => state.userReducer.user);
+	const localUser = JSON.parse(localStorage.getItem("user"));
 
 	useEffect(() => {
-		var jsonStr = localStorage.getItem("userData");
-		var userData = new Function("return " + jsonStr)();
-		setUser(userData);
-	}, []);
+		setUser(userData ? userData : localUser);
+	}, [userData, localUser]);
 
 	const sendData = async (e) => {
 		e.preventDefault();
@@ -37,11 +42,17 @@ const CreatePosts = () => {
 				pBody,
 				pAuthor: user._id,
 			})
+			.then(() => {
+				dispatch(createPostStart());
+			})
 			.then((res) => {
-				dispatch(createPost(res.data.data));
+				dispatch(createPostSuccess(res.data.data));
 				router.push("/");
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => {
+				console.log({ err });
+				dispatch(createPostFailure(err));
+			});
 		return res;
 	};
 
@@ -167,7 +178,7 @@ const CreatePosts = () => {
 							<textarea
 								name="postBody"
 								id="postBody"
-								className="w-full h-full px-10 bg-gray-50 font-inter font-normal outline-none text-xl scrollbar scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-transparent resize-none"
+								className="w-full h-full px-10 bg-gray-50 font-inter font-normal outline-none text-xl scrollbar scrollbar-thumb-blue-500 scrollbar-track-transparent resize-none"
 								placeholder="Write your post content here..."
 								onChange={(e) => setPBody(e.target.value)}
 								value={pBody}
