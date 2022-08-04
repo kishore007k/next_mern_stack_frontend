@@ -7,7 +7,13 @@ import {
 
 const fetchAllPosts = async ({ dispatch }) => {
 	const res = await axios
-		.get("/api/posts")
+		.get(
+			`${
+				process.env.NODE_ENV === "production"
+					? process.env.BACKEND_URL_PROD
+					: process.env.BACKEND_URL_DEV
+			}/api/posts`
+		)
 		.then((res) => {
 			dispatch(fetchAllPostsStart());
 

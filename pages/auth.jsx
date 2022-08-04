@@ -27,12 +27,19 @@ const AuthPage = () => {
 	const handleCreateUser = (e) => {
 		e.preventDefault();
 		const res = axios
-			.post("/api/users/create", {
-				userName,
-				password,
-				cPassword,
-				email,
-			})
+			.post(
+				`${
+					process.env.NODE_ENV === "production"
+						? process.env.BACKEND_URL_PROD
+						: process.env.BACKEND_URL_DEV
+				}/api/users/create`,
+				{
+					userName,
+					password,
+					cPassword,
+					email,
+				}
+			)
 			.then((res) => {
 				dispatch(signUpRequest());
 
@@ -53,10 +60,17 @@ const AuthPage = () => {
 	const handleSignInUser = (e) => {
 		e.preventDefault();
 		const res = axios
-			.post("/api/users", {
-				password,
-				email,
-			})
+			.post(
+				`${
+					process.env.NODE_ENV === "production"
+						? process.env.BACKEND_URL_PROD
+						: process.env.BACKEND_URL_DEV
+				}/api/users`,
+				{
+					password,
+					email,
+				}
+			)
 			.then((res) => {
 				dispatch(signInRequest());
 
