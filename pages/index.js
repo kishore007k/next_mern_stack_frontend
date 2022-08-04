@@ -4,7 +4,13 @@ import axios from "axios";
 
 export const getStaticProps = async () => {
 	// const { data: posts } = await supabase.from("post").select("*");
-	const { data: posts } = await axios.get("http://localhost:3000/api/posts");
+	const { data: posts } = await axios.get(
+		`${
+			process.env.NODE_ENV === "production"
+				? process.env.BACKEND_URL_PROD
+				: process.env.BACKEND_URL_DEV
+		}/api/posts`
+	);
 	return {
 		props: {
 			posts: posts.data,

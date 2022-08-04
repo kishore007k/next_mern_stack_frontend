@@ -7,7 +7,13 @@ import {
 
 const fetchUser = async ({ id, dispatch }) => {
 	const res = await axios
-		.get(`http://localhost:3000/api/users/${id}`)
+		.get(
+			`${
+				process.env.NODE_ENV === "production"
+					? process.env.BACKEND_URL_PROD
+					: process.env.BACKEND_URL_DEV
+			}/api/users/${id}`
+		)
 		.then((res) => {
 			dispatch(getSingleUserRequest());
 

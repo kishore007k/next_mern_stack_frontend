@@ -40,20 +40,27 @@ const Edit = () => {
 	const updateUserDetails = async (e) => {
 		e.preventDefault();
 		const res = await axios
-			.put("http://localhost:3000/api/users", {
-				userId: user._id,
-				updatedData: {
-					name,
-					email,
-					userName,
-					userImage,
-					websiteLink,
-					location,
-					bio,
-					work,
-					education,
-				},
-			})
+			.put(
+				`${
+					process.env.NODE_ENV === "production"
+						? process.env.BACKEND_URL_PROD
+						: process.env.BACKEND_URL_DEV
+				}/api/users`,
+				{
+					userId: user._id,
+					updatedData: {
+						name,
+						email,
+						userName,
+						userImage,
+						websiteLink,
+						location,
+						bio,
+						work,
+						education,
+					},
+				}
+			)
 			.then((res) => {
 				setLoading(true);
 				dispatch(updateUserRequest());

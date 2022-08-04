@@ -9,7 +9,13 @@ import Loader from "../../components/Loader";
 import Head from "next/head";
 
 export const getStaticPaths = async () => {
-	const { data: posts } = await axios.get("http://localhost:3000/api/posts");
+	const { data: posts } = await axios.get(
+		`${
+			process.env.NODE_ENV === "production"
+				? process.env.BACKEND_URL_PROD
+				: process.env.BACKEND_URL_DEV
+		}/api/posts`
+	);
 	const paths = [];
 	posts.data.forEach((post) => {
 		paths.push({ params: { postSlug: post.slug } });
@@ -23,7 +29,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
 	const { data: post } = await axios.get(
-		`http://localhost:3000/api/posts/${context.params.postSlug}`
+		`${
+			process.env.NODE_ENV === "production"
+				? process.env.BACKEND_URL_PROD
+				: process.env.BACKEND_URL_DEV
+		}/api/posts/${context.params.postSlug}`
 	);
 	return {
 		props: {
