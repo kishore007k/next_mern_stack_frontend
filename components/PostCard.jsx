@@ -26,7 +26,10 @@ const PostCard = ({ user, post }) => {
 	const month = date.getMonthName();
 
 	return (
-		<div className="bg-white border-[1px] border-border rounded-lg drop-shadow-sm p-5">
+		<div
+			key={post._id}
+			className="bg-white border-[1px] border-border rounded-lg drop-shadow-sm p-5"
+		>
 			<div className="flex space-x-5 items-center pb-2">
 				<div className="w-10 h-10">
 					<img

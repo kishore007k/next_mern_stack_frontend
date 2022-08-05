@@ -15,7 +15,9 @@ import fetchUser from "../auth/fetchUser";
 
 const Profile = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.userReducer.user);
+	const userSec = useSelector((state) => state.userReducer.user);
+	const localUser = JSON.parse(localStorage.getItem("user"));
+	const user = localUser || userSec;
 
 	const [loading, setLoading] = useState(true);
 
