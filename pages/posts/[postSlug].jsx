@@ -14,7 +14,12 @@ export const getStaticPaths = async () => {
 			process.env.NODE_ENV === "production"
 				? process.env.BACKEND_URL_PROD
 				: process.env.BACKEND_URL_DEV
-		}/api/posts`
+		}/api/posts`,
+		{
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		}
 	);
 	const paths = [];
 	posts.data.forEach((post) => {
@@ -33,7 +38,12 @@ export const getStaticProps = async (context) => {
 			process.env.NODE_ENV === "production"
 				? process.env.BACKEND_URL_PROD
 				: process.env.BACKEND_URL_DEV
-		}/api/posts/${context.params.postSlug}`
+		}/api/posts/${context.params.postSlug}`,
+		{
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		}
 	);
 	return {
 		props: {

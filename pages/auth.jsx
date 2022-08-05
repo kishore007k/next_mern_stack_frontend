@@ -38,6 +38,11 @@ const AuthPage = () => {
 					password,
 					cPassword,
 					email,
+				},
+				{
+					headers: {
+						"Access-Control-Allow-Origin": "*",
+					},
 				}
 			)
 			.then((res) => {

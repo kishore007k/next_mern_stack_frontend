@@ -9,7 +9,12 @@ export const getStaticProps = async () => {
 			process.env.NODE_ENV === "production"
 				? process.env.BACKEND_URL_PROD
 				: process.env.BACKEND_URL_DEV
-		}/api/posts`
+		}/api/posts`,
+		{
+			headers: {
+				"Access-Control-Allow-Origin": "*",
+			},
+		}
 	);
 	return {
 		props: {

@@ -59,6 +59,11 @@ const Edit = () => {
 						work,
 						education,
 					},
+				},
+				{
+					headers: {
+						"Access-Control-Allow-Origin": "*",
+					},
 				}
 			)
 			.then((res) => {

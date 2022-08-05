@@ -12,7 +12,12 @@ const fetchUser = async ({ id, dispatch }) => {
 				process.env.NODE_ENV === "production"
 					? process.env.BACKEND_URL_PROD
 					: process.env.BACKEND_URL_DEV
-			}/api/users/${id}`
+			}/api/users/${id}`,
+			{
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+				},
+			}
 		)
 		.then((res) => {
 			dispatch(getSingleUserRequest());

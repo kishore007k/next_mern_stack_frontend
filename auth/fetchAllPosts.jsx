@@ -12,7 +12,12 @@ const fetchAllPosts = async ({ dispatch }) => {
 				process.env.NODE_ENV === "production"
 					? process.env.BACKEND_URL_PROD
 					: process.env.BACKEND_URL_DEV
-			}/api/posts`
+			}/api/posts`,
+			{
+				headers: {
+					"Access-Control-Allow-Origin": "*",
+				},
+			}
 		)
 		.then((res) => {
 			dispatch(fetchAllPostsStart());

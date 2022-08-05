@@ -34,14 +34,22 @@ const CreatePosts = () => {
 	const sendData = async (e) => {
 		e.preventDefault();
 		const res = await axios
-			.post("/api/posts", {
-				title,
-				slug,
-				desc,
-				pImage: cover,
-				pBody,
-				pAuthor: user._id,
-			})
+			.post(
+				"/api/posts",
+				{
+					title,
+					slug,
+					desc,
+					pImage: cover,
+					pBody,
+					pAuthor: user._id,
+				},
+				{
+					headers: {
+						"Access-Control-Allow-Origin": "*",
+					},
+				}
+			)
 			.then(() => {
 				dispatch(createPostStart());
 			})
